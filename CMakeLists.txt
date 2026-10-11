@@ -26,13 +26,13 @@ if(NOT CMAKE_CONFIGURATION_TYPES AND NOT CMAKE_BUILD_TYPE MATCHES "^(Release|Rel
 endif()
 
 add_library(OrionNativeHeaders INTERFACE)
-add_library(Orion::NativeHeaders ALIAS OrionNativeHeaders)
+add_library(orion::NativeHeaders ALIAS OrionNativeHeaders)
 target_compile_features(OrionNativeHeaders INTERFACE cxx_std_20)
 target_include_directories(OrionNativeHeaders INTERFACE "${CMAKE_CURRENT_SOURCE_DIR}/include")
 
 add_library(OrionNative SHARED src/Main.cpp)
-add_library(Orion::Native ALIAS OrionNative)
-target_link_libraries(OrionNative PUBLIC Orion::NativeHeaders)
+add_library(orion::Native ALIAS OrionNative)
+target_link_libraries(OrionNative PUBLIC orion::NativeHeaders)
 target_compile_definitions(OrionNative PRIVATE WIN32_LEAN_AND_MEAN NOMINMAX)
 target_compile_options(OrionNative PRIVATE /W4 /permissive- /utf-8)
 target_link_options(OrionNative PRIVATE /INCREMENTAL:NO /OPT:REF /OPT:ICF)

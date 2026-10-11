@@ -5,7 +5,7 @@
 #include <unordered_map>
 #include <utility>
 
-namespace Orion {
+namespace orion {
 
 struct InitializationContext {
     using Values = std::unordered_map<std::string, std::any>;
@@ -31,32 +31,32 @@ private:
     Values values_;
 };
 
-} // namespace Orion
+} // namespace orion
 
-inline Orion::InitializationContext::InitializationContext(Values values) : values_(std::move(values)) {}
+inline orion::InitializationContext::InitializationContext(Values values) : values_(std::move(values)) {}
 
-inline bool Orion::InitializationContext::contains(const std::string& key) const {
+inline bool orion::InitializationContext::contains(const std::string& key) const {
     return values_.contains(key);
 }
 
 template <typename T>
-const T& Orion::InitializationContext::get(const std::string& key) const {
+const T& orion::InitializationContext::get(const std::string& key) const {
     return std::any_cast<const T&>(values_.at(key));
 }
 
 template <typename T>
-const T* Orion::InitializationContext::tryGet(const std::string& key) const {
+const T* orion::InitializationContext::tryGet(const std::string& key) const {
     const auto it = values_.find(key);
     return it == values_.end() ? nullptr : std::any_cast<T>(&it->second);
 }
 
 template <typename T>
-T Orion::InitializationContext::getOr(const std::string& key, T fallback) const {
+T orion::InitializationContext::getOr(const std::string& key, T fallback) const {
     const auto* value = tryGet<T>(key);
     return value ? *value : std::move(fallback);
 }
 
 template <typename T>
-void Orion::InitializationContext::set(std::string key, T&& value) {
+void orion::InitializationContext::set(std::string key, T&& value) {
     values_.insert_or_assign(std::move(key), std::any(std::forward<T>(value)));
 }
